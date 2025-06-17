@@ -38,6 +38,49 @@ typedef struct acoral_list
 /* 检测链表是否为空 */
 #define acoral_list_empty(head) ((head)->next==(head))
 
+/**
+ * @brief 遍历双向循环链表 (不包括头节点本身)。
+ * @param pos 用作循环迭代器的 acoral_list_t 指针。
+ * @param head 指向链表头节点的 acoral_list_t 指针。
+ */
+#define acoral_list_for_each(pos, head)	\
+	for(pos = (head)->next;				\
+	pos != (head);						\
+	pos = pos->next )
+
+/**
+ * @brief 遍历包含特定 acoral_list_t 成员的结构体链表 (删除安全)。
+ * @param pos 循环变量，指向当前父结构体的指针。
+ * @param n 临时变量，指向下一个父结构体的指针 (用于安全删除)。
+ * @param type 父结构体的类型。
+ * @param head 链表头指针 (acoral_list_t *)。
+ * @param member 父结构体中 acoral_list_t 成员的名称。
+ */
+#define acoral_list_for_each_entry_safe(pos, n, type, head, member)    	\
+    for (pos = list_entry((head)->next, type, member),         			\
+         n = list_entry(pos->member.next, type, member);       			\
+         &pos->member != (head);                                      	\
+         pos = n, n = list_entry(n->member.next, type, member))
+
+/**
+ * @brief 遍历包含特定 acoral_list_t 成员的结构体链表。
+ * 这个版本是非删除安全的，即在循环体内删除 'pos' 指向的节点是不安全的。
+ * @param pos 循环变量，指向父结构体的指针。
+ * 例如：posix_mq_desc_t *entry;
+ * @param type 父结构体的类型。
+ * 例如：posix_mq_desc_t
+ * @param head 链表头指针 (acoral_list_t *)。
+ * 例如：&g_posix_mq_active_desc_list_head
+ * @param member 父结构体中 acoral_list_t 成员的名称。
+ * 例如：desc_list_node
+ */
+#define acoral_list_for_each_entry(pos, type, head, member)            	\
+    for (pos = list_entry((head)->next, type, member);          		\
+         &pos->member != (head);                                       	\
+         pos = list_entry(pos->member.next, type, member))
+
+
+
 void acoral_list_add(acoral_list_t *new, acoral_list_t *head);
 void acoral_list_add_tail(acoral_list_t *new, acoral_list_t *head);
 void acoral_list_del(acoral_list_t *entry);

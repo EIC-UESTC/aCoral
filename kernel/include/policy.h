@@ -28,7 +28,16 @@
 
 /**
  * @brief 调度策略结构体
+ * policy_thread_init 函数指针的作用是指向特定调度策略的线程初始化例程。它本身不包含代码，而是存储了一个函数的地址。
+ * 这个地址是在系统初始化或策略注册时，根据具体的调度策略（如COMM、FIFO、PERIOD等）被设置的。
  * 
+ * 理解：
+ * 1.acoral_sched_policy_t 是一个“遥控器”的蓝图。
+ * 2.acoral_comm_policy 是一个具体的“COMM策略遥控器”实例。
+ * 3.comm_policy_init() 是“组装这个COMM策略遥控器”的工厂函数。
+ * 4.policy_thread_init 是遥控器上的一个按钮（函数指针）。
+ * 5.comm_policy_thread_init 是按下这个按钮后实际执行的具体动作（一个具体的函数）。
+ * 6.comm_policy_init() 的任务就是把 comm_policy_thread_init 这个“具体动作”连接到遥控器的 policy_thread_init “按钮”上。
  */
 typedef struct
 {

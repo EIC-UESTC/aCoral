@@ -16,9 +16,11 @@
 #ifndef KERNEL_CPU_H
 #define KERNEL_CPU_H
 
+#include "lsched.h"
 #include "config.h"
 #include "type.h"
 #include "hal_comm.h"
+
 
 #ifndef CFG_SMP
 
@@ -28,6 +30,7 @@
 #define acoral_idlest_cpu  0
 
 #else /* ifndef CFG_SMP */
+
 
 /* 重定义获取当前cpu函数 */
 #define acoral_current_cpu HAL_GET_CURRENT_CPU()

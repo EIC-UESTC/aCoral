@@ -12,6 +12,7 @@
  *         <tr><th>版本 <th>作者 <th>日期 <th>修改内容
  *         <tr><td>v1.0 <td>胡博文 <td>2022-07-12 <td>增加注释
  *         <tr><td>v2.0 <td>饶洪江 <td>2025-04-14 <td>规范代码风格
+ *
  */
 #include "hal.h"
 #include "queue.h"
@@ -28,7 +29,8 @@ static XScuTimer      acoral_timer;
 /* 延时队列 */
 static acoral_queue_t time_delay_queue;
 /* 基石时刻 */
-static acoral_u32     ticks;
+static acoral_u32 ticks;
+
 
 /**
  * @brief 时钟管理系统初始化
@@ -49,6 +51,8 @@ acoral_time acoral_get_ticks()
 {
     return ticks;
 }
+
+
 /**
  * @brief 设置时刻
  *
@@ -58,6 +62,8 @@ void acoral_set_ticks(acoral_time time)
 {
     ticks = time;
 }
+
+
 
 /**
  * @brief 基石时钟中断函数
@@ -76,7 +82,9 @@ void acoral_ticks_handler(void *CallBackRef)
 #ifdef CFG_HOOK_TICKS
         acoral_ticks_hook();
 #endif
+
         ticks++;
+
 #ifdef CFG_OS_TICK_PRINT_ENABLE
         if ((ticks - time_tmp) >= 1000)
         {
