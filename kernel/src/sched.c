@@ -32,7 +32,7 @@ static acoral_u32 critical_nesting[CFG_MAX_CPU]; /* 临界区嵌套值 */
 
 static acoral_thread_t *ready_thread[CFG_MAX_CPU];   /* 最优先就绪线程 */
 
-static acoral_rdy_queue_t acoral_ready_queues[CFG_MAX_CPU]; /* 线程就绪队列实例 */
+acoral_rdy_queue_t acoral_ready_queues[CFG_MAX_CPU]; /* 线程就绪队列实例 */
 
 /**
  * @brief 调度初始化
@@ -168,7 +168,7 @@ acoral_thread_t *acoral_get_running_thread(acoral_u32 cpu)
 void acoral_set_running_thread(acoral_thread_t *thread)
 {
     acoral_running_thread[acoral_current_cpu]->state &= ~ACORAL_THREAD_STATE_RUNNING; /* 设置正在运行的线程状态not running */
-    thread->state |= ACORAL_THREAD_STATE_RUNNING;                              /* 设置该线程状态running */
+    thread->state |= ACORAL_THREAD_STATE_RUNNING;                              			/* 设置该线程状态running */
     acoral_running_thread[acoral_current_cpu] = thread;                               /* 改变正在运行的线程为该线程 */
 }
 

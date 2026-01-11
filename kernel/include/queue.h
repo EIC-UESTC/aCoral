@@ -19,7 +19,13 @@
 
 /**
  * @brief 队列结构体
- * 
+ * 1.acoral_list_t head(链表头节点)：
+ * 使用了一种侵入式链表（intrusive linked list）来实现队列。
+ * 侵入式链表意味着线程控制块 (TCB) 自身内部会包含一个 acoral_list_t 类型的成员（在 sched_yield 函数中我们看到了 current_thread->ready，这个 ready 就是 TCB 内的链表节点）。
+ * 当一个线程变为就绪状态时，它 TCB 内的那个 acoral_list_t 节点就会被链接到这个 head 所代表的链表中。
+ * 这个 head 充当了该优先级就绪线程队列的入口。它是一个双向循环链表头，head.next 指向队列中的第一个线程，head.prev 指向队列中的最后一个线程。如果队列为空，head.next 和 head.prev 都指向 head 自身。
+ * 2.acoral_spinlock_t lock(自旋锁):
+ * 确保在任何时刻只有一个 CPU 核心可以修改同一个优先级的就绪队列，防止因并发访问导致的数据竞争和队列损坏。
  */
 typedef struct{
     acoral_list_t     head; /* 队列头 */

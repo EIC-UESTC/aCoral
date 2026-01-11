@@ -15,11 +15,13 @@
  */
 #include "cpu.h"
 #include "bitops.h"
-#include "lsched.h"
+
 
 /* 活动cpu位图 */
 acoral_u32 acoral_active_map[1] = {0};
-extern acoral_rdy_queue_t acoral_ready_queues[CFG_MAX_CPU];
+
+//为每一个 CPU 核心都分配了一个独立的、完整的就绪队列系统((Per-CPU Ready Queues))
+//extern acoral_rdy_queue_t acoral_ready_queues[CFG_MAX_CPU];
 
 /**
  * @brief 查看某cpu是否在活动状态

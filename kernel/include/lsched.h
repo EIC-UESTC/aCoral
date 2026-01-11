@@ -16,8 +16,8 @@
  */
 #ifndef KERNEL_LSCHED_H
 #define KERNEL_LSCHED_H
-#include "thread.h"
 #include "cpu.h"
+#include "thread.h"
 
 /**
  * @brief 线程就绪队列组结构体
@@ -27,6 +27,9 @@ typedef struct
 {
     acoral_thread_prio_array_t array; /* 线程优先级array */
 } acoral_rdy_queue_t;
+
+// 为每一个 CPU 核心都分配了一个独立的、完整的就绪队列系统((Per-CPU Ready Queues))
+extern acoral_rdy_queue_t acoral_ready_queues[CFG_MAX_CPU];
 
 void acoral_sched_lock();
 void acoral_sched_unlock();
